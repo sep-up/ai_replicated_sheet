@@ -1,74 +1,90 @@
-import { defineConfig } from 'vite'
+import { resolve } from 'node:path'
 import vue from '@vitejs/plugin-vue'
-import path from 'path'
-import fs from 'fs'
+import { defineConfig, loadEnv } from 'vite'
+import fs from 'node:fs/promises'
+import path from 'node:path'
 
-// https://vite.dev/config/
-export default defineConfig({
-  // 项目基础路径
-  base: process.env.NODE_ENV === 'development' ? '/' : './',
-  // 构建输出目录
-  build: {
-    outDir: 'dist',
-    // 静态资源目录
-    assetsDir: 'static',
-    // 代码分割配置
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          'chunk-libs': ['vue']
-        }
+export default defineConfig(function(configEnv) {
+  var mode = configEnv.mode
+  var env = loadEnv(mode, process.cwd(), '')
+  var VITE_PUBLIC_PATH = env.VITE_PUBLIC_PATH || './'
+  var VITE_NGINX_PATH = env.VITE_NGINX_PATH || '/factory/v1'
+  var VITE_BASE_API = env.VITE_BASE_API || 'https://192.168.102.22:8301'
+  
+  return {
+    base: VITE_PUBLIC_PATH,
+    resolve: {
+      alias: {
+        '@': resolve(__dirname, 'src')
       }
-    }
-  },
-  // 开发服务器配置
-  server: {
-    host: '0.0.0.0',
-    port: process.env.port || process.env.npm_config_port || 8080,
-    // 错误和警告显示在浏览器
-    overlay: {
-      warnings: false,
-      errors: true
     },
-    // 代理配置
-    proxy: {
-      '/factory/v1/jy-app': {
-        target: 'https://192.168.102.22:8301',
-        ws: true,
-        changeOrigin: true,
-        secure: false
-      }
-    }
-  },
-  // 路径别名
-  resolve: {
-    alias: {
-      '@': path.resolve(__dirname, 'src')
-    }
-  },
-  // 插件配置
-  plugins: [
-    vue(),
-    // 生产环境下复制并更新 AppManifest.json
-    {
-      name: 'copy-appmanifest',
-      closeBundle() {
-        if (process.env.NODE_ENV === 'production') {
-          const manifestPath = path.join(__dirname, 'AppManifest.json')
-          const manifestContent = fs.readFileSync(manifestPath, 'utf-8')
-          const config = JSON.parse(manifestContent)
-          config.versionCode += 1
-          const updatedContent = JSON.stringify(config, null, 2)
-          fs.writeFileSync(manifestPath, updatedContent)
-          // 复制到 dist 目录
-          const distDir = path.join(__dirname, 'dist')
-          if (!fs.existsSync(distDir)) {
-            fs.mkdirSync(distDir, { recursive: true })
+    server: {
+      host: true,
+      port: 8080,
+      strictPort: false,
+      open: true,
+      proxy: {
+        [VITE_NGINX_PATH]: {
+          target: VITE_BASE_API,
+          changeOrigin: true,
+          secure: false,
+          rewrite: function(pathStr) {
+            return pathStr.replace(new RegExp('^' + VITE_NGINX_PATH), '')
           }
-          const distPath = path.join(distDir, 'AppManifest.json')
-          fs.writeFileSync(distPath, updatedContent)
+        }
+      },
+      cors: true
+    },
+    build: {
+      outDir: 'dist',
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            vue: ['vue', 'vue-router', 'pinia'],
+            element: ['element-plus', '@element-plus/icons-vue']
+          },
+          chunkFileNames: 'static/js/[name]-[hash].js',
+          entryFileNames: 'static/js/[name]-[hash].js',
+          assetFileNames: function(assetInfo) {
+            var info = assetInfo.name.split('.')
+            var ext = info[info.length - 1]
+            if (/\.(woff2?|eot|ttf|otf)(\?.*)?$/i.test(assetInfo.name)) {
+              return 'static/fonts/[name]-[hash].[ext]'
+            }
+            if (/\.css$/i.test(assetInfo.name)) {
+              return 'static/css/[name]-[hash].[ext]'
+            }
+            return 'static/[name]-[hash].[ext]'
+          }
+        }
+      },
+      reportCompressedSize: false,
+      chunkSizeWarningLimit: 2048
+    },
+    esbuild: mode === 'development' ? undefined : {
+      pure: ['console.log'],
+      drop: ['debugger'],
+      legalComments: 'none'
+    },
+    plugins: [
+      vue(),
+      {
+        name: 'copy-appmanifest',
+        closeBundle: function() {
+          if (process.env.NODE_ENV === 'production') {
+            var manifestPath = path.join(__dirname, 'AppManifest.json')
+            return fs.readFile(manifestPath, 'utf-8').then(function(content) {
+              var config = JSON.parse(content)
+              config.versionCode = config.versionCode + 1
+              var updatedContent = JSON.stringify(config, null, 2)
+              return Promise.all([
+                fs.writeFile(manifestPath, updatedContent),
+                fs.writeFile(path.join(__dirname, 'dist', 'AppManifest.json'), updatedContent)
+              ])
+            })
+          }
         }
       }
-    }
-  ]
+    ]
+  }
 })

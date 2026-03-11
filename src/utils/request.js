@@ -1,37 +1,34 @@
 import axios from 'axios'
 
-const getBaseURL = () => {
-  if (import.meta.env.DEV) {
-    return '/factory/v1/jy-app/'
-  }
-  const baseUrl = localStorage.getItem('baseUrl')
-  return baseUrl ? `${baseUrl}/factory/v1/jy-app` : '/factory/v1/jy-app/'
-}
+var baseURL = import.meta.env.MODE === 'development'
+          ? import.meta.env.VITE_NGINX_PATH
+          : `${localStorage.getItem('baseUrl')}/factory/v1`
 
-const request = axios.create({
-  baseURL: getBaseURL(),
+var request = axios.create({
+  baseURL: baseURL,
   timeout: 10000
 })
 
 request.interceptors.request.use(
-  config => {
+  function(config) {
+    config.headers['Authorization'] = localStorage.getItem('Token-Type') || 'Bearer' + ' ' + localStorage.getItem('Token')
     return config
   },
-  error => {
+  function(error) {
     return Promise.reject(error)
   }
 )
 
 request.interceptors.response.use(
-  response => {
-    const res = response.data
+  function(response) {
+    var res = response.data
     if (res.code === 200) {
       return res
     } else {
       return Promise.reject(new Error(res.message || '请求失败'))
     }
   },
-  error => {
+  function(error) {
     return Promise.reject(error)
   }
 )
