@@ -23,6 +23,7 @@ export default defineConfig({
   },
   // 开发服务器配置
   server: {
+    host: '0.0.0.0',
     port: process.env.port || process.env.npm_config_port || 8080,
     // 错误和警告显示在浏览器
     overlay: {
@@ -31,11 +32,11 @@ export default defineConfig({
     },
     // 代理配置
     proxy: {
-      [process.env.VUE_APP_NGINX_PATH]: {
-        target: process.env.VUE_APP_BASE_API,
+      '/factory/v1/jy-app': {
+        target: 'https://192.168.102.22:8301',
         ws: true,
         changeOrigin: true,
-        rewrite: (path) => path.replace(new RegExp('^' + process.env.VUE_APP_NGINX_PATH), '')
+        secure: false
       }
     }
   },

@@ -1,0 +1,151 @@
+1.列表接口（get）：/jy-app/api/product/work/reports?&page=1&size=20&productOrderNumber=251028041-0&workOrderNumber=251028041-0-2-1&workCenterName=SMT%E4%B8%AD%E5%BF%83&materialCode=P068AG2ZP0926-109696&materialName=P068AG2ZP0926&userNickname=%E7%8E%8B%E7%A3%8A&startDate=2025-03-01&endDate=2026-03-01
+响应：{
+    "code": 200,
+    "message": "成功请求",
+    "data": {
+        "content": [
+            {
+                "current": null,
+                "page": null,
+                "size": null,
+                "paged": true,
+                "startDate": null,
+                "endDate": null,
+                "reportDate": "2025-11-14",
+                "productOrderNumber": "251028041-0",
+                "workOrderNumber": "251028041-0-2-1",
+                "planQuantity": "27400.0",
+                "workCenterName": "SMT中心",
+                "workCenterId": "2",
+                "materialCode": "P068AG2ZP0926-109696",
+                "materialName": "P068AG2ZP0926",
+                "finishCount": 17260,
+                "procedureName": "FQC",
+                "username": "wanglei",
+                "userNickname": "王磊",
+                "qualified": 17260,
+                "unqualified": 0,
+                "qualifiedPercentage": 100
+            },
+            {
+                "current": null,
+                "page": null,
+                "size": null,
+                "paged": true,
+                "startDate": null,
+                "endDate": null,
+                "reportDate": "2025-11-14",
+                "productOrderNumber": "251028041-0",
+                "workOrderNumber": "251028041-0-2-1",
+                "planQuantity": "27400.0",
+                "workCenterName": "SMT中心",
+                "workCenterId": "2",
+                "materialCode": "P068AG2ZP0926-109696",
+                "materialName": "P068AG2ZP0926",
+                "finishCount": 17260,
+                "procedureName": "冲型测试",
+                "username": "wanglei",
+                "userNickname": "王磊",
+                "qualified": 17260,
+                "unqualified": 0,
+                "qualifiedPercentage": 100
+            },
+            {
+                "current": null,
+                "page": null,
+                "size": null,
+                "paged": true,
+                "startDate": null,
+                "endDate": null,
+                "reportDate": "2025-11-14",
+                "productOrderNumber": "251028041-0",
+                "workOrderNumber": "251028041-0-2-1",
+                "planQuantity": "27400.0",
+                "workCenterName": "SMT中心",
+                "workCenterId": "2",
+                "materialCode": "P068AG2ZP0926-109696",
+                "materialName": "P068AG2ZP0926",
+                "finishCount": 17260,
+                "procedureName": "贴片",
+                "username": "wanglei",
+                "userNickname": "王磊",
+                "qualified": 17260,
+                "unqualified": 0,
+                "qualifiedPercentage": 100
+            },
+            {
+                "current": null,
+                "page": null,
+                "size": null,
+                "paged": true,
+                "startDate": null,
+                "endDate": null,
+                "reportDate": "2025-11-14",
+                "productOrderNumber": "251028041-0",
+                "workOrderNumber": "251028041-0-2-1",
+                "planQuantity": "27400.0",
+                "workCenterName": "SMT中心",
+                "workCenterId": "2",
+                "materialCode": "P068AG2ZP0926-109696",
+                "materialName": "P068AG2ZP0926",
+                "finishCount": 17260,
+                "procedureName": "仓库发料",
+                "username": "wanglei",
+                "userNickname": "王磊",
+                "qualified": 17260,
+                "unqualified": 0,
+                "qualifiedPercentage": 100
+            }
+        ],
+        "pageable": {
+            "sort": [],
+            "offset": 0,
+            "pageNumber": 0,
+            "pageSize": 20,
+            "paged": true,
+            "unpaged": false
+        },
+        "last": true,
+        "totalPages": 1,
+        "totalElements": 4,
+        "first": true,
+        "size": 20,
+        "number": 0,
+        "sort": [],
+        "numberOfElements": 4,
+        "empty": false
+    },
+    "true": true
+}
+2.列表配置接口 get：/jy-app/formColumns/user/column?modularType=CommonProductionDailyReport
+响应：{
+    "code": 200,
+    "message": "成功请求",
+    "data": {
+        "id": "743171990956802048",
+        "createdBy": "yelinkoncall",
+        "lastModifiedBy": "yelinkoncall",
+        "createdDate": "2026-03-10 16:46:53",
+        "lastModifiedDate": "2026-03-10 16:47:09",
+        "version": 1,
+        "deleted": false,
+        "enabled": true,
+        "interned": false,
+        "sort": 0,
+        "columnInformation": "{\"sortData\":{\"type=seq\":1,\"reportDate\":3,\"productOrderNumber\":2,\"workOrderNumber\":4,\"planQuantity\":5,\"workCenterName\":6,\"materialCode\":7,\"materialName\":8,\"finishCount\":9,\"userNickname\":10,\"qualified\":11,\"procedureName\":12,\"unqualified\":13,\"qualifiedPercentage\":14}}",
+        "modularType": "CommonProductionDailyReport",
+        "username": "yelinkoncall"
+    },
+    "true": true
+}
+3.保存列配置接口 post：/jy-app/formColumns/user/column
+参数：{
+    "modularType": "CommonProductionDailyReport",
+    "columnInformation": "{\"sortData\":{\"type=seq\":1,\"productOrderNumber\":2,\"reportDate\":3,\"workOrderNumber\":4,\"planQuantity\":5,\"workCenterName\":6,\"materialCode\":7,\"materialName\":8,\"finishCount\":9,\"userNickname\":10,\"qualified\":11,\"procedureName\":12,\"unqualified\":13,\"qualifiedPercentage\":14}}"
+}
+响应：{
+    "code": 200,
+    "message": "成功请求",
+    "data": null,
+    "true": true
+}
