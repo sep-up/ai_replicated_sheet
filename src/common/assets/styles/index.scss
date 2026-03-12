@@ -1,0 +1,95 @@
+body,
+html,
+div,
+section,
+article,
+aside,
+main,
+footer,
+header,
+nav,
+figure,
+figcaption,
+dialog,
+menu,
+menuitem,
+hgroup,
+details,
+ruby,
+progress h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+span,
+a,
+img,
+ul,
+ol,
+dl,
+li,
+dt,
+dd,
+table,
+tr,
+td,
+thead,
+tbody,
+form,
+label,
+input,
+area,
+select,
+video,
+audio,
+embed {
+  margin: 0;
+  padding: 0;
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+body,
+html,
+#app {
+  height: 100%;
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+div,
+section,
+p,
+ul,
+li,
+header {
+  box-sizing: border-box;
+}
+
+.el-notification {
+  z-index: 9999 !important;
+}
+.el-message {
+  z-index: 9999 !important;
+}
+.batch-dialog-overlay-zindex-2750 {
+  z-index: 2750 !important;
+}
+
+.batch-dialog-zindex-3000 {
+  z-index: 3000 !important;
+}
+.print-template-dialog-overlay-zindex-3250 {
+  z-index: 3250 !important;
+}
+.print-template-dialog-zindex-3500 {
+  z-index: 3500 !important;
+}
+.print-set-dialog-overlay-zindex-3750 {
+  z-index: 3750 !important;
+}
+.print-set-dialog-zindex-4000 {
+  z-index: 4000 !important;
+}

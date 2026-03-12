@@ -1,27 +1,9 @@
-<template>
-  <div id="app">
-    <router-view />
-  </div>
-</template>
-
-<script setup>
+<script lang="ts" setup>
+import zhCn from 'element-plus/es/locale/lang/zh-cn' // Element Plus 中文包
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
-}
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  background-color: #f5f5f5;
-}
-</style>
+<template>
+  <el-config-provider :locale="zhCn">
+    <router-view />
+  </el-config-provider>
+</template>
